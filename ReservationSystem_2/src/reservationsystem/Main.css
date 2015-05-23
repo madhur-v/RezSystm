@@ -9,7 +9,7 @@
     -fx-background-image:  url(clean-white-polygon-backgrounds-8.jpg), url(logojava.png), url(mgm-grand-logo.png);
     -fx-background-position: top, left bottom, top center;
     -fx-background-repeat: repeat, no-repeat, no-repeat; 
-    -fx-background-size: 200%, 20%, 40%;
+    -fx-background-size: 200%, 20%, 50%;
 
 }
 
