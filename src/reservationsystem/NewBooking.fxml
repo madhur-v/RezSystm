@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reservationsystem.NewBookingController">
+    <children>
+      <VBox layoutX="77.0" layoutY="121.0" prefHeight="516.0" prefWidth="221.0">
+         <children>
+            <Button fx:id="resetnewbookingbutton" mnemonicParsing="false" onAction="#resetfields" prefHeight="38.0" prefWidth="96.0" text="RESET">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Button>
+            <Text fx:id="compulsorytext" strokeType="OUTSIDE" strokeWidth="0.0" text="*Compulsory">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Text>
+            <Label fx:id="bookingnamelabel" text="Booking Name*">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="guestslabel" text="Number of Guests*">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="roomlabel" text="Room">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="availabilitybutton" mnemonicParsing="false" onAction="#goToViewRooms" prefHeight="38.0" prefWidth="211.0" text="Check Room Availability">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="checkinlabel" text="Check-in Date*">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="checkoutlabel" text="Check-out Date*">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+        <Text fx:id="newbookingtext" layoutX="366.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Booking" textAlignment="CENTER">
+            <font>
+                <Font name="Arial Bold" size="46.0" />
+            </font>
+        </Text>
+      <Button fx:id="returnhomebutton" layoutX="31.0" layoutY="27.0" mnemonicParsing="false" onAction="#gotohomepage" prefHeight="38.0" prefWidth="96.0" text="HOME">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+      <VBox layoutX="305.0" layoutY="170.0" prefHeight="476.0" prefWidth="304.0">
+         <children>
+            <TextField fx:id="bookingnametextfield" prefHeight="38.0" prefWidth="458.0">
+               <VBox.margin>
+                  <Insets top="55.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="gueststextfield" prefHeight="38.0" prefWidth="458.0">
+               <VBox.margin>
+                  <Insets top="44.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="roomtextfield" prefHeight="38.0" prefWidth="458.0">
+               <VBox.margin>
+                  <Insets top="45.0" />
+               </VBox.margin>
+            </TextField>
+            <HBox prefHeight="42.0" prefWidth="304.0">
+               <VBox.margin>
+                  <Insets top="90.0" />
+               </VBox.margin>
+               <children>
+                  <DatePicker fx:id="checkindatepicker" prefHeight="32.0" prefWidth="154.0" />
+                  <ComboBox fx:id="checkInTime" prefHeight="33.0" prefWidth="145.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="35.0" prefWidth="304.0">
+               <VBox.margin>
+                  <Insets top="45.0" />
+               </VBox.margin>
+               <children>
+                  <DatePicker fx:id="checkoutdatepicker" onAction="#showBreakfast" prefHeight="32.0" prefWidth="156.0" />
+                  <ComboBox fx:id="checkOutTime" prefHeight="32.0" prefWidth="148.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ComboBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox layoutX="77.0" layoutY="672.0" prefHeight="51.0" prefWidth="868.0">
+         <children>
+            <Button fx:id="addentrybutton" mnemonicParsing="false" onAction="#addentry" prefHeight="51.0" prefWidth="200.0" text="Add Entry">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="backbutton" layoutX="326.0" layoutY="10.0" mnemonicParsing="false" onAction="#gotobookinghome" prefHeight="51.0" prefWidth="200.0" text="Back">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="commentlabel" layoutX="73.0" layoutY="646.0" prefHeight="17.0" prefWidth="6.0" />
+      <Button fx:id="add" layoutX="833.0" layoutY="34.0" mnemonicParsing="false" onAction="#addDummyData" text="Add test booking" />
+      <Button fx:id="bookingAvailabilities" layoutX="833.0" layoutY="79.0" mnemonicParsing="false" onAction="#goToBookingAvailabilities" text="BookingAvailabilities" />
+      <TableView fx:id="breakfastTableView" layoutX="710.0" layoutY="221.0" prefHeight="422.0" prefWidth="258.0">
+        <columns>
+          <TableColumn fx:id="dayTableColumn" prefWidth="70.0" text="Day" />
+          <TableColumn fx:id="dateTableColumn" prefWidth="66.0" text="Date" />
+            <TableColumn fx:id="breakfastTableColumn" prefWidth="55.0" text="Breakfast" />
+        </columns>
+      </TableView>
+      <Label fx:id="referenceCode" layoutX="305.0" layoutY="137.0" prefHeight="35.0" prefWidth="304.0" text="Reference code" visible="false" />  
+    </children>
+</AnchorPane>

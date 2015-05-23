@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reservationsystem.ViewRoomsController">
+   <children>
+      <TableView fx:id="roomsTableView" layoutX="287.0" layoutY="128.0" prefHeight="513.0" prefWidth="390.0">
+        <columns>
+          <TableColumn fx:id="roomNumber" prefWidth="96.0" text="Room Number" />
+          <TableColumn fx:id="roomType" prefWidth="104.0" text="Room Type" />
+            <TableColumn fx:id="capacity" prefWidth="75.0" text="Capacity " />
+            <TableColumn fx:id="Cost" prefWidth="93.0" text="Cost" />
+        </columns>
+      </TableView>
+      <Button fx:id="homeButton" layoutX="44.0" layoutY="44.0" mnemonicParsing="false" onAction="#goToHome" text="Home" />
+      <Button fx:id="Back" layoutX="118.0" layoutY="44.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+      <Label fx:id="roomTypeLabel" layoutX="286.0" layoutY="48.0" prefHeight="17.0" prefWidth="68.0" text="Room type" />
+      <DatePicker fx:id="arriveDatePicker" layoutX="529.0" layoutY="44.0" />
+      <DatePicker fx:id="departureDatePicker" layoutX="802.0" layoutY="44.0" />
+      <Label fx:id="departureDate" layoutX="714.0" layoutY="48.0" text="Departure date" />
+      <Label fx:id="arrivalDate" layoutX="451.0" layoutY="48.0" text="Arrival date" />
+      <TextField fx:id="roomTypeTextField" layoutX="354.0" layoutY="44.0" prefHeight="25.0" prefWidth="81.0" />
+      <Label fx:id="description" layoutX="286.0" layoutY="653.0" prefHeight="25.0" prefWidth="390.0" />
+   </children>
+</AnchorPane>

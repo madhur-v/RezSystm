@@ -1,0 +1,58 @@
+1, Single,100
+2, Single,100
+3, Double,150
+4, Double,150
+5, Queen,175
+6, King,200
+7, Twin,225
+8, Double-double,250
+9, Queen-queen,275
+10, Suite,350
+11, Single,100
+12, Single,100
+13, Double,150
+14, Double,150
+15, Queen,175
+16, King,200
+17, Twin,225
+18, Double-double,250
+19, Queen-queen,275
+20, Suite,350
+21, Single,100
+22, Single,100
+23, Double,150
+24, Double,150
+25, Queen,175
+26, King,200
+27, Twin,225
+28, Double-double,250
+29, Queen-queen,275
+30, Suite,350
+31, Single,100
+32, Single,100
+33, Double,150
+34, Double,150
+35, Queen,175
+36, King,200
+37, Twin,225
+38, Double-double,250
+39, Queen-queen,275
+40, Suite,350
+41, Single,100
+42, Single,100
+43, Double,150
+44, Double,150
+45, Queen,175
+46, King,200
+47, Twin,225
+48, Double-double,250
+49, Queen-queen,275
+50, Suite,350
+RoomTypes, Single,1,A room assigned to one person. Has one bed.
+RoomTypes, Double,2,A room assigned to two people. Has one bed.
+RoomTypes, Queen,2,A room with a queen sized bed. May be occupied by one or more people.
+RoomTypes, King,3,A room with a king sized bed. May be occupied by one or more people.
+RoomTypes, Twin,4,A room with two twin beds. May be occupied by one or more people.
+RoomTypes, Double-double,4, A room with two double beds. May be occupied by one or more people.
+RoomTypes, Queen-queen,4, A room with two queen beds. May be occupied by one or more people.
+RoomTypes, Suite,8, A parlour or living room connected with to one or more bedrooms.

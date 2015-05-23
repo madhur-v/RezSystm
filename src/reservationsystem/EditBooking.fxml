@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reservationsystem.EditBookingController">
+   <children>
+      <Label fx:id="editBookingText" layoutX="366.0" layoutY="48.0" prefHeight="70.0" prefWidth="292.0" text="Edit booking">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Button fx:id="home" layoutX="32.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToHome" prefHeight="57.0" prefWidth="87.0" text="Home" />
+      <Button fx:id="save" layoutX="50.0" layoutY="682.0" mnemonicParsing="false" onAction="#saveBooking" prefHeight="57.0" prefWidth="118.0" text="Save" />
+      <Button fx:id="back" layoutX="142.0" layoutY="36.0" mnemonicParsing="false" onAction="#goToBack" prefHeight="70.0" prefWidth="98.0" text="Back" />
+      <GridPane layoutX="53.0" layoutY="165.0" prefHeight="469.0" prefWidth="374.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="bookingnamelabel" text="Booking Name*" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="guestslabel" text="Number of Guests*" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="roomlabel" text="Room" GridPane.rowIndex="3">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="checkinlabel" text="Check-in Date*" GridPane.rowIndex="4">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="checkoutlabel" text="Check-out Date*" GridPane.rowIndex="5">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="deposit" prefHeight="40.0" prefWidth="113.0" text="Deposit" GridPane.rowIndex="6" />
+            <Label fx:id="referenceCodeTextField" prefHeight="38.0" prefWidth="98.0" text="Reference code:" />
+            <TextField fx:id="bookingnametextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="gueststextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="roomtextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="referenceCode" prefHeight="31.0" prefWidth="87.0" GridPane.columnIndex="1" />
+            <DatePicker fx:id="checkindatepicker" prefHeight="32.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="checkoutdatepicker" onAction="#showBreakfast" prefHeight="32.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="depositTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         </children>
+      </GridPane>
+      <TableView fx:id="breakfastTableView" layoutX="481.0" layoutY="279.0" prefHeight="422.0" prefWidth="258.0">
+         <columns>
+            <TableColumn fx:id="dayTableColumn" prefWidth="52.0" text="Day" />
+            <TableColumn fx:id="dateTableColumn" prefWidth="58.0" text="Date" />
+            <TableColumn fx:id="breakfastTableColumn" prefWidth="70.0" text="Breakfast" />
+         </columns>
+      </TableView>
+      <Label fx:id="earlyCheckIn" layoutX="447.0" layoutY="181.0" prefHeight="32.0" prefWidth="133.0" text="Arrange early check in" />
+      <Label fx:id="lateCheckOut" layoutX="447.0" layoutY="229.0" prefHeight="30.0" prefWidth="133.0" text="Arrange late check out" />
+      <ComboBox fx:id="checkInComboBox" layoutX="583.0" layoutY="185.0" prefWidth="150.0" />
+      <ComboBox fx:id="checkOutComboBox" layoutX="583.0" layoutY="232.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>
