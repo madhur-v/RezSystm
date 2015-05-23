@@ -1,0 +1,50 @@
+1, SINGLE,1,100, A room assigned to one person. Has one bed
+2, SINGLE,1,100, A room assigned to one person. Has one bed
+3, DOUBLE,2,150, A room assigned to two people. Has one bed
+4, DOUBLE,2,150, A room assigned to two people. Has one bed
+5, QUEEN,2,175, A room with a queen sized bed. May be occupied by one or more people
+6, KING,3,200, A room with a king sized bed. May be occupied by one or more people
+7, TWIN,4,225, A room with two twin beds. May be occupied by one or more people.
+8, DOUBLE-DOUBLE,4,250,  A Room with two double beds. May be occupied by one or more person.
+9, QUEEN-QUEEN,4,275,  A Room with two queen beds. May be occupied by one or more person.
+10, SUITE,8,350,  A parlour or living room connected with to one or more bedrooms.
+11, SINGLE,1,115, A room assigned to one person. Has one bed
+12, SINGLE,1,115, A room assigned to one person. Has one bed
+13, DOUBLE,2,165, A room assigned to two people. Has one bed
+14, DOUBLE,2,165, A room assigned to two people. Has one bed
+15, QUEEN,2,190, A room with a queen sized bed. May be occupied by one or more people
+16, KING,3,215, A room with a king sized bed. May be occupied by one or more people
+17, TWIN,4,240, A room with two twin beds. May be occupied by one or more people.
+18, DOUBLE-DOUBLE,4,265,  A Room with two double beds. May be occupied by one or more person.
+19, QUEEN-QUEEN,4,290,  A Room with two queen beds. May be occupied by one or more person.
+20, SUITE,8,365,  A parlour or living room connected with to one or more bedrooms.
+21, SINGLE,1,130, A room assigned to one person. Has one bed
+22, SINGLE,1,130, A room assigned to one person. Has one bed
+23, DOUBLE,2,180, A room assigned to two people. Has one bed
+24, DOUBLE,2,180, A room assigned to two people. Has one bed
+25, QUEEN,2,205, A room with a queen sized bed. May be occupied by one or more people
+26, KING,3,230, A room with a king sized bed. May be occupied by one or more people
+27, TWIN,4,255, A room with two twin beds. May be occupied by one or more people.
+28, DOUBLE-DOUBLE,4,280,  A Room with two double beds. May be occupied by one or more person.
+29, QUEEN-QUEEN,4,305,  A Room with two queen beds. May be occupied by one or more person.
+30, SUITE,8,380,  A parlour or living room connected with to one or more bedrooms.
+31, SINGLE,1,145, A room assigned to one person. Has one bed
+32, SINGLE,1,145, A room assigned to one person. Has one bed
+33, DOUBLE,2,195, A room assigned to two people. Has one bed
+34, DOUBLE,2,195, A room assigned to two people. Has one bed
+35, QUEEN,2,220, A room with a queen sized bed. May be occupied by one or more people
+36, KING,3,245, A room with a king sized bed. May be occupied by one or more people
+37, TWIN,4,270, A room with two twin beds. May be occupied by one or more people.
+38, DOUBLE-DOUBLE,4,295,  A Room with two double beds. May be occupied by one or more person.
+39, QUEEN-QUEEN,4,320,  A Room with two queen beds. May be occupied by one or more person.
+40, SUITE,8,395,  A parlour or living room connected with to one or more bedrooms.
+41, SINGLE,1,160, A room assigned to one person. Has one bed
+42, SINGLE,1,160, A room assigned to one person. Has one bed
+43, DOUBLE,2,210, A room assigned to two people. Has one bed
+44, DOUBLE,2,210, A room assigned to two people. Has one bed
+45, QUEEN,2,235, A room with a queen sized bed. May be occupied by one or more people
+46, KING,3,260, A room with a king sized bed. May be occupied by one or more people
+47, TWIN,4,285, A room with two twin beds. May be occupied by one or more people.
+48, DOUBLE-DOUBLE,4,310,  A Room with two double beds. May be occupied by one or more person.
+49, QUEEN-QUEEN,4,335,  A Room with two queen beds. May be occupied by one or more person.
+50, SUITE,8,410,  A parlour or living room connected with to one or more bedrooms.

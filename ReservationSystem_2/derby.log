@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sat May 23 19:31:27 AEST 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-014d-801c-e6dc-000002ede998 
+on database directory C:\Users\user\Documents\NetBeansProjects\ReservationSystem_2\ReservationDB with class loader sun.misc.Launcher$AppClassLoader@5c647e05 
+Loaded from file:/C:/Users/user/Documents/NetBeansProjects/ReservationSystem_2/dist/run1451871374/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_45-b14
+user.dir=C:\Users\user\Documents\NetBeansProjects\ReservationSystem_2
+os.name=Windows 7
+os.arch=amd64
+os.version=6.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
