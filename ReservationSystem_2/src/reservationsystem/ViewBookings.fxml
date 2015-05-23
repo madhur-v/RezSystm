@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="reservationsystem.ViewBookingsController">
+    <children>
+        <Text fx:id="viewbookingtext" layoutX="308.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View/Edit Bookings" textAlignment="CENTER">
+            <font>
+                <Font name="Arial Bold" size="46.0" />
+            </font>
+        </Text>
+      <Button fx:id="returnhomebutton" layoutX="31.0" layoutY="27.0" mnemonicParsing="false" onAction="#gotohomepage" prefHeight="38.0" prefWidth="96.0" text="HOME">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+      <HBox layoutX="34.0" layoutY="672.0" prefHeight="51.0" prefWidth="961.0">
+         <children>
+            <Button fx:id="deleteentrybutton" mnemonicParsing="false" onAction="#deleteentry" prefHeight="51.0" prefWidth="200.0" text="Delete Entry">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="editentrybutton" layoutX="128.0" layoutY="10.0" mnemonicParsing="false" onAction="#editentry" prefHeight="51.0" prefWidth="200.0" text="Edit Entry">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="200.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="backbutton" layoutX="326.0" layoutY="10.0" mnemonicParsing="false" onAction="#gotobookinghome" prefHeight="51.0" prefWidth="200.0" text="Back">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="200.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="commentlabel" layoutX="79.0" layoutY="646.0" />
+      <TableView fx:id="bookingsTableView" layoutX="31.0" layoutY="109.0" prefHeight="537.0" prefWidth="945.0">
+        <columns>
+          <TableColumn fx:id="ID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="Booking_Name" prefWidth="111.0" text="Booking_Name" />
+            <TableColumn fx:id="Guests" prefWidth="65.0" text="Guests" />
+            <TableColumn fx:id="RoomNo" prefWidth="57.0" text="Room#" />
+            <TableColumn fx:id="checkInDate" prefWidth="96.0" text="Check-in Date" />
+            <TableColumn fx:id="checkOutDate" prefWidth="101.0" text="Check out date" />
+            <TableColumn fx:id="breakfast" prefWidth="68.0" text="Breakfast" />
+            <TableColumn fx:id="earlyIn" prefWidth="63.0" text="Early in" />
+            <TableColumn fx:id="lateOut" prefWidth="84.0" text="Late out" />
+            <TableColumn fx:id="Paid" prefWidth="54.0" text="Paid" />
+            <TableColumn fx:id="Remaining" prefWidth="75.0" text="Remaining" />
+        </columns>
+      </TableView>  
+    </children>
+</AnchorPane>
