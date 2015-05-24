@@ -93,43 +93,25 @@ public class ViewBookingsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         generateBooking();
+        try {
+            m.createLog("User viewed bookings");
 //buildData();
+        } catch (SQLException ex) {
+            Logger.getLogger(ViewBookingsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 //bookingsTableView.getColumns().get(0).setVisible(true);
     private ObservableList<Bookings> bookingData = FXCollections.observableArrayList(); //create the data
 
     PageSwitch ps = new PageSwitch();
+    Methods m = new Methods();
 
     public void generateBooking() {
         try {
 
 // Add to the data any time, and the table will be updated
             System.out.println("generate booking method has begun...");
-
-            TableColumn col_action = new TableColumn<>("Action");
-            bookingsTableView.getColumns().add(col_action);
-
-            col_action.setCellValueFactory(
-                    new javafx.util.Callback<TableColumn.CellDataFeatures<Disposer.Record, Boolean>, ObservableValue<Boolean>>() {
-
-                        @Override
-                        public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Disposer.Record, Boolean> p) {
-                            return new SimpleBooleanProperty(p.getValue() != null);
-                        }
-                    });
-
-            //Adding the Button to the cell
-            col_action.setCellFactory(
-                    new javafx.util.Callback<TableColumn<Disposer.Record, Boolean>, TableCell<Disposer.Record, Boolean>>() {
-
-                        @Override
-                        public TableCell<Disposer.Record, Boolean> call(TableColumn<Disposer.Record, Boolean> p) {
-                            System.out.println("return new button cell");
-                            return new ButtonCell();
-                        }
-
-                    });
 
             ID.setCellValueFactory(new PropertyValueFactory<Bookings, String>("ID"));
             Booking_Name.setCellValueFactory(new PropertyValueFactory<Bookings, String>("BOOKING_NAME"));
@@ -163,9 +145,7 @@ public class ViewBookingsController implements Initializable {
                             ps.editBooking(event);
                         } catch (IOException ex) {
                             Logger.getLogger(ViewBookingsController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                        
+                        }                                        
                         
                         try {
                             ps.newBooking(event);

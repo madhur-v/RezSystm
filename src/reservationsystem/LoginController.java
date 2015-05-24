@@ -79,6 +79,11 @@ public class LoginController implements Initializable {
             app_stage.hide();
             app_stage.setScene(homepage_scene);
             app_stage.show();
+            Methods m = new Methods();
+            m.insertStatement("INSERT INTO APP.LOGIN(USERNAME) VALUES ('" + usertextfield.getText() + "')");
+            m.createLog("User logged into the application.");
+            
+            
         } else {
             usertextfield.clear();
             passwordtextfield.clear();
@@ -175,7 +180,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    private void goToNextPage(KeyEvent event) throws IOException {
+    private void goToNextPage(KeyEvent event) throws IOException, SQLException {
         System.out.println("event is: " + event);
       
         if(event.getCode() == KeyCode.ENTER){
@@ -188,6 +193,10 @@ public class LoginController implements Initializable {
             app_stage.hide();
             app_stage.setScene(homepage_scene);
             app_stage.show();
+            Methods m = new Methods();
+            m.insertStatement("INSERT INTO APP.LOGIN(USERNAME) VALUES ('" + usertextfield.getText() + "')");
+            m.createLog("User logged into the application");
+            
         } else {
             usertextfield.clear();
             passwordtextfield.clear();
@@ -195,6 +204,7 @@ public class LoginController implements Initializable {
         }
 
     }
-
 }
+    
+
 }

@@ -36,6 +36,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import static java.time.temporal.TemporalQueries.localDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -45,7 +46,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
@@ -74,6 +77,8 @@ public class EditBookingController implements Initializable {
     @FXML
     private Button back;
     @FXML
+    private Label errorLabel;
+    @FXML
     private Label bookingnamelabel;
     @FXML
     private Label guestslabel;
@@ -101,32 +106,34 @@ public class EditBookingController implements Initializable {
     private DatePicker checkoutdatepicker;
     @FXML
     private TextField depositTextField;
-    
+
     @FXML
     private TableColumn dayTableColumn;
-    
+
     @FXML
     private TableView<Pair<String, Object>> breakfastTableView = new TableView<>();
-        
+
     @FXML
     private TableColumn<Pair<String, Object>, String> dateTableColumn;
-    
+
     @FXML
     private TableColumn<Pair<String, Object>, Object> breakfastTableColumn;
 
+    public ObservableList<Pair<String, Object>> data = FXCollections.observableArrayList();
 
-        public ObservableList<Pair<String, Object>> data = FXCollections.observableArrayList();
-      
-       private Pair<String, Object> pair(String name, Object value) {
+    private Pair<String, Object> pair(String name, Object value) {
         return new Pair<>(name, value);
     }
-       
-       public Connection conn;
+
+    public Connection conn;
+    Methods m = new Methods();
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        errorLabel.setVisible(false);
         bookingnametextfield.setText("TEST HOPE THIS WORKS");
         fillData();
         try {
@@ -137,6 +144,34 @@ public class EditBookingController implements Initializable {
 
     }
 
+        public void datePickerConstraint() {
+        final Callback<DatePicker, DateCell> dayCellFactory
+                = new Callback<DatePicker, DateCell>() {
+                    @Override
+                    public DateCell call(final DatePicker datePicker) {
+                        return new DateCell() {
+                            @Override
+                            public void updateItem(LocalDate item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (item.isBefore(
+                                        checkindatepicker.getValue().plusDays(1))) {
+                                    setDisable(true);
+                                    setStyle("-fx-background-color: #ffc0cb;");
+                                }
+                                long p = ChronoUnit.DAYS.between(
+                                        checkindatepicker.getValue(), item
+                                );
+                                setTooltip(new Tooltip(
+                                                "You're about to stay for " + p + " days")
+                                );
+                            }
+                        };
+                    }
+                };
+        checkoutdatepicker.setDayCellFactory(dayCellFactory);
+      //  checkoutdatepicker.setValue(checkindatepicker.getValue().plusDays(1));
+
+    }
     public String reference = " ";
 
     public void fillData() {
@@ -148,16 +183,13 @@ public class EditBookingController implements Initializable {
             openConnection();
             System.out.println("connection opened");
             //java.sql.Statement statement = conn.createStatement();
-
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
             System.out.println("query created");
-
             //String reference = " ";
             String room = " ";
             String checkInDate = " ";
             String checkOutDate = " ";
-            
+
             java.sql.Statement statement = conn.createStatement();
             ResultSet viewBookings = statement.executeQuery("SELECT * FROM APP.EDIT_BOOKING");
             while (viewBookings.next()) {
@@ -209,7 +241,9 @@ public class EditBookingController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        datePickerConstraint();
     }
+    
 
     public void generateBreakfast() throws SQLException {
         java.sql.Statement statement = conn.createStatement();
@@ -220,24 +254,23 @@ public class EditBookingController implements Initializable {
             Boolean bf = Boolean.parseBoolean(viewbreakfast.getString(4));
             System.out.println("datebooked: " + dateBooked + "boolean bf : " + bf);
             Breakfast breakfast = new Breakfast(dateBooked, bf);
-            data.add(pair(dateBooked, bf));           
+            data.add(pair(dateBooked, bf));
         }
-        
+
         breakfastTableView.getItems().setAll(data);
-        
-       dateTableColumn.setCellValueFactory(new PairKeyFactoryEditBooking());
+
+        dateTableColumn.setCellValueFactory(new PairKeyFactoryEditBooking());
         breakfastTableColumn.setCellValueFactory(new PairValueFactoryEditBooking());
- 
-              breakfastTableView.getColumns().setAll(dateTableColumn, breakfastTableColumn);
+
+        breakfastTableView.getColumns().setAll(dateTableColumn, breakfastTableColumn);
         breakfastTableColumn.setCellFactory(new Callback<TableColumn<Pair<String, Object>, Object>, TableCell<Pair<String, Object>, Object>>() {
             @Override
             public TableCell<Pair<String, Object>, Object> call(TableColumn<Pair<String, Object>, Object> column) {
                 return new PairValueCellEditBooking();
             }
         });
-        
-    }
 
+    }
 
     public void arrangeEarlyCheckIn(String reference, String room, String checkInDate) throws SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -285,11 +318,42 @@ public class EditBookingController implements Initializable {
             checkOutComboBox.setValue("Unavailable");
         }
     }
+    
+     public boolean testValidCapacity() throws SQLException {
+        boolean isValid;
 
+        openConnection();
+        String roomtype = " ";
+        int roomNo = Integer.parseInt(roomtextfield.getText());
+        int guestno = Integer.parseInt(gueststextfield.getText());
+        System.out.println("roomNO: " + roomNo + " guestno: " + guestno);
 
-        
+        java.sql.Statement statement1 = conn.createStatement();
+        ResultSet rs = statement1.executeQuery("SELECT ROOM_TYPE FROM APP.ROOM WHERE ROOM_NO = " + roomNo);
+        while (rs.next()) {
+            roomtype = rs.getString(1);
+            System.out.println("rs.getString(1): " + rs.getString(1));
+        }
+
+        if (roomtype.contains("Single") && guestno > 1) {
+            isValid = false;
+        } else if (roomtype.contains("Double") || roomtype.contains("Queen") || roomtype.contains("King") && guestno > 2) {
+            isValid = false;
+        } else if ("Twin".equals(roomtype) || "Double-double".equals(roomtype) || "Queen-queen".equals(roomtype) && guestno > 4) {
+            isValid = false;
+        } else if ("Suite".equals(roomtype) && guestno > 12) {
+            isValid = false;
+        } else {
+            return true;
+        }
+        return isValid;
+    }   
+    
+    
+    
     @FXML
     private void saveBooking(ActionEvent event) throws IOException, SQLException, ParseException {
+         if (testValidCapacity()) {
         String checkIn = "No";
         String checkOut = "No";
 
@@ -327,62 +391,78 @@ public class EditBookingController implements Initializable {
         System.out.println("Inserting/n" + update);
         insertStatement(update);
         System.out.println("You clicked me!");
-        
-                    String endDate = checkoutdatepicker.getValue().toString();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar c = Calendar.getInstance();
-            c.setTime(sdf.parse(endDate));
-            c.add(Calendar.DATE, 1);  // number of days to add
-            endDate = sdf.format(c.getTime());
+        String endDate = checkoutdatepicker.getValue().toString();
 
-            String startDate = checkindatepicker.getValue().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(sdf.parse(endDate));
+        c.add(Calendar.DATE, 1);  // number of days to add
+        endDate = sdf.format(c.getTime());
 
-            while (!startDate.equals(endDate)) {
-                System.out.println("startDate is now : " + startDate);
-                //System.out.println("startDate is initially: " + startDate);
-                CheckCell uhm = new CheckCell();
+        String startDate = checkindatepicker.getValue().toString();
+
+        int x = 0;
+        while (!startDate.equals(endDate)) {
+            System.out.println("startDate is now : " + startDate);
+            //System.out.println("startDate is initially: " + startDate);
+            CheckCell uhm = new CheckCell();
                 //Breakfast test = (Breakfast) uhm.this.getTableView().getItems().get(0);
-                //System.out.println("test date: " + test.getDate() + "test breakfast is: " + checkbox.isSelected());
+            //System.out.println("test date: " + test.getDate() + "test breakfast is: " + checkbox.isSelected());
 
-                int count = 0;
-                for (Breakfast z : breakfast) {
-                    //System.out.println(" THE DATE IS: " + z.getDate() + "BREAKFAST? " + z.getBreakfast());
-                    if (z.getDate().equals(startDate) && z.getBreakfast() == true) {
-                        System.out.println("CONTAINS YAY");
-                        count++;
-                    } else if (z.getDate().equals(startDate) && z.getBreakfast() == false) {
-                        System.out.println("does not contain");
-                        count--;
-                    } else {
-                        System.out.println("DOES NOT CONTAIN OH NO");
- 
-                    }
-                    System.out.println(count);
-                }
-                       
-                if (count > 0) {
-                    String update1 ="UPDATE APP.BOOKING_AVAILABILITIES SET "
-                            + "BREAKFAST = TRUE  "
-                            + "WHERE REFERENCECODE = '" + reference + "' AND DATE_BOOKED = '" + startDate + "'";
-                  
-                    System.out.println("Inserting/n" + update1);
-                    insertStatement(update1);
+            int count = 0;
+            for (Breakfast z : breakfast) {
+                //System.out.println(" THE DATE IS: " + z.getDate() + "BREAKFAST? " + z.getBreakfast());
+                if (z.getDate().equals(startDate) && z.getBreakfast() == true) {
+                    System.out.println("CONTAINS YAY");
+                    count++;
+                    x++;
+                } else if (z.getDate().equals(startDate) && z.getBreakfast() == false) {
+                    System.out.println("does not contain");
+                    count--;
+                    x--;
                 } else {
-                        String update2 =" UPDATE APP.BOOKING_AVAILABILITIES SET "
-                            + "BREAKFAST = FALSE  "
-                            + "WHERE REFERENCECODE = '" + reference + "' AND DATE_BOOKED = '" + startDate + "'";
-                    System.out.println("Inserting/n" + update2);
-                    insertStatement(update2);
+                    System.out.println("DOES NOT CONTAIN OH NO");
 
                 }
-
-
-                c.setTime(sdf.parse(startDate));
-                c.add(Calendar.DATE, 1);  // number of days to add
-                startDate = sdf.format(c.getTime());
+                System.out.println(count);
             }
-   
+
+            if (count > 0) {
+                String update1 = "UPDATE APP.BOOKING_AVAILABILITIES SET "
+                        + "BREAKFAST = TRUE  "
+                        + "WHERE REFERENCECODE = '" + reference + "' AND DATE_BOOKED = '" + startDate + "'";
+
+                System.out.println("Inserting/n" + update1);
+                insertStatement(update1);
+            } else {
+                String update2 = " UPDATE APP.BOOKING_AVAILABILITIES SET "
+                        + "BREAKFAST = FALSE  "
+                        + "WHERE REFERENCECODE = '" + reference + "' AND DATE_BOOKED = '" + startDate + "'";
+                System.out.println("Inserting/n" + update2);
+                insertStatement(update2);
+
+            }
+
+            c.setTime(sdf.parse(startDate));
+            c.add(Calendar.DATE, 1);  // number of days to add
+            startDate = sdf.format(c.getTime());
+        }
+
+        if (x > 0) {
+            String update2 = " UPDATE APP.BOOKING SET "
+                    + "BREAKFAST = TRUE  "
+                    + "WHERE REFERENCECODE = '" + reference + "'";
+            System.out.println("Inserting/n" + update2);
+            insertStatement(update2);
+        } else if (x <=0) {
+            String update2 = " UPDATE APP.BOOKING SET "
+                    + "BREAKFAST = FALSE  "
+                    + "WHERE REFERENCECODE = '" + reference + "'" ;
+            System.out.println("Inserting/n" + update2);
+            insertStatement(update2);
+        }
+
         data.removeAll();
 
         Parent parent = FXMLLoader.load(getClass().getResource("ViewBookings.fxml"));
@@ -390,10 +470,17 @@ public class EditBookingController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+        m.createLog("User updated booking: " + reference);
+        
+         } else {
+                         errorLabel.setVisible(true);
+            errorLabel.setText("The number of guests exceeds the capacity for this room");   
+         }
+         
 
     }
 
-        static ArrayList<Breakfast> breakfast = new ArrayList<Breakfast>();
+    static ArrayList<Breakfast> breakfast = new ArrayList<Breakfast>();
 
     public static void addBreakfast(String date, boolean test) {
         Breakfast lol = new Breakfast(date, test);
@@ -406,7 +493,7 @@ public class EditBookingController implements Initializable {
             System.out.println(" THE DATE IS: " + b.getDate() + "BREAKFAST? " + b.getBreakfast());
         }
     }
-   
+
     @FXML
     private void goToHome(ActionEvent event) throws IOException {
         PageSwitch ps = new PageSwitch();
@@ -415,17 +502,17 @@ public class EditBookingController implements Initializable {
 
     @FXML
     private void goToBack(ActionEvent event) throws IOException {
-       PageSwitch ps = new PageSwitch();
-       ps.viewBooking(event);
+        PageSwitch ps = new PageSwitch();
+        ps.viewBooking(event);
 
-       data.removeAll();
+        data.removeAll();
     }
 
     @FXML
     private void showBreakfast(ActionEvent event) {
     }
 
-    public  void openConnection() {
+    public void openConnection() {
         if (conn == null) {
             try {
                 conn = DriverManager.getConnection("jdbc:derby:"
@@ -437,8 +524,6 @@ public class EditBookingController implements Initializable {
             }
         }
     }
-
-
 
     private void insertStatement(String insert_query) {
 

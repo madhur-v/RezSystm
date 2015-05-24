@@ -50,6 +50,7 @@ public class ReservationSystem extends Application {
         Methods.createFROM_ROOMTable();
         Methods.createFROM_BOOKINGTable();
         Methods.createHISTORYLOGTable();
+        Methods.createLogInTable();
         launch(args);
 
     }

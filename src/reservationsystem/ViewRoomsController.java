@@ -86,6 +86,7 @@ public class ViewRoomsController implements Initializable {
 
     PageSwitch ps = new PageSwitch();
     public Connection conn;
+    Methods m = new Methods();
 
     /**
      * Initializes the controller class.
@@ -102,6 +103,7 @@ public class ViewRoomsController implements Initializable {
         description.setVisible(false);
 
         try {
+            m.createLog("User viewed rooms available");
             generateTable();
             insertDates();
         } catch (SQLException ex) {
@@ -155,9 +157,19 @@ public class ViewRoomsController implements Initializable {
                     System.out.println(rowData.getROOM_NO());
                     try {
                         Methods m = new Methods();
-                        m.insertStatement("INSERT INTO APP.FROM_ROOM(ROOM_NO) VALUES(" + Integer.parseInt(rowData.getROOM_NO()) + ")");
+
+                        java.sql.Statement statement1 = conn.createStatement();
+                        ResultSet RS = statement1.executeQuery("SELECT * FROM APP.FROM_ROOM");
+
+                        if (RS.next()) {
+                            m.insertStatement("UPDATE APP.FROM_ROOM SET ROOM_NO = " + Integer.parseInt(rowData.getROOM_NO()));
+                        } else {
+                            m.insertStatement("INSERT INTO APP.FROM_ROOM(ROOM_NO) VALUES(" + Integer.parseInt(rowData.getROOM_NO()) + ")");
+                        }
                         ps.newBooking(event);
                     } catch (IOException ex) {
+                        Logger.getLogger(ViewRoomsController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
                         Logger.getLogger(ViewRoomsController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -188,35 +200,6 @@ public class ViewRoomsController implements Initializable {
             return row;
         });
 
-        /**
-         * roomsTableView.setRowFactory(cellData -> { TableRow<Rooms> row = new
-         * TableRow<>();
-         *
-         * row.hoverProperty().addListener((observable) -> { Rooms room =
-         * row.getItem();
-         *
-         * if (row.isHover() && room != null) {
-         *
-         * try { openConnection(); java.sql.Statement statement =
-         * conn.createStatement(); ResultSet viewRooms =
-         * statement.executeQuery("SELECT DESCRIPTION FROM APP.ROOM_TYPES" + "
-         * WHERE ROOM_TYPE = '" + room.getROOM_TYPE() + "'");
-         *
-         * while (viewRooms.next()) {
-         *
-         * description.setVisible(true);
-         *
-         * description.setText(viewRooms.getString(1)); } } catch (SQLException
-         * ex) {
-         * Logger.getLogger(ViewRoomsController.class.getName()).log(Level.SEVERE,
-         * null, ex); }
-         *
-         * }else { description.setVisible(false); }
-         *
-         * });
-         *
-         * return row; });
-         */
         System.out.println("cell value factory stuff...attempting to read from db now");
 
         openConnection();
@@ -232,25 +215,14 @@ public class ViewRoomsController implements Initializable {
 
             if (b.contains("Single")) {
                 d = "1";
-              //  b = "Single";
             } else if (b.contains("King")) {
-                d = "3";
-               // b = "King";
+                d = "2";
             } else if (b.contains("Twin") || b.contains("-")) {
                 d = "4";
-               // if(b.contains("TWIN")) {
-                 //   b = "Twin";
-                //} else if (b.contains("DOUBLE")) {
-                  //  b = "Double-double";
-               // } else {
-               //     b = "Queen-queen";
-               // }
             } else if (b.contains("Suite")) {
-                d = "8";
-                //b = "Suit";
+                d = "12";
             } else {
                 d = "2";
-                //b = "Double";
             }
 
             System.out.println(a + " " + b + " " + c + " " + d);
@@ -274,15 +246,62 @@ public class ViewRoomsController implements Initializable {
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (Rooms.getROOM_TYPE().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                } else if (Rooms.getROOM_NO().toLowerCase().contains(lowerCaseFilter)) {
-                    return false;
-                } else if (Rooms.getCAPACITY().toLowerCase().contains(lowerCaseFilter)) {
-                    return false;
-                } else if (Rooms.getCOST().toLowerCase().contains(lowerCaseFilter)) {
-                    return false;
+                int i = 0;
+
+                if (departureDatePicker.getValue() != null && arriveDatePicker.getValue() != null) {
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate startDate = arriveDatePicker.getValue();
+                        LocalDate endDate = departureDatePicker.getValue();
+                        System.out.println(startDate.compareTo(endDate));
+
+                        java.sql.Statement statement5 = conn.createStatement();
+                        ResultSet viewBookings = statement5.executeQuery("SELECT * FROM APP.BOOKING WHERE ROOM = " + Integer.parseInt(Rooms.getROOM_NO()));
+                        System.out.println("query created");
+
+                        while (viewBookings.next()) {
+                            LocalDate bookingStart = LocalDate.parse(viewBookings.getString(6), formatter);
+                            LocalDate bookingEnd = LocalDate.parse(viewBookings.getString(7), formatter);
+                            //bookingStart.compareTo(bookingEnd);
+
+                            if (Rooms.getROOM_TYPE().toLowerCase().contains(lowerCaseFilter)) {
+
+                                if (startDate.compareTo(bookingEnd) > 0) {
+                                    return true;
+                                } else if (endDate.compareTo(bookingStart) < 0) {
+                                    return true;
+                                } else {
+                                    i++;
+                                    return false;
+                                }
+                            } else {
+                                return false;
+                            }
+                        }
+
+                        if (i > 0) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ViewRoomsController.class
+                                .getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    System.out.println("I have registered the event");
+                    if (Rooms.getROOM_TYPE().toLowerCase().contains(lowerCaseFilter)) {
+                        return true; // Filter matches first name.
+                    } else if (Rooms.getROOM_NO().toLowerCase().contains(lowerCaseFilter)) {
+                        return false;
+                    } else if (Rooms.getCAPACITY().toLowerCase().contains(lowerCaseFilter)) {
+                        return false;
+                    } else if (Rooms.getCOST().toLowerCase().contains(lowerCaseFilter)) {
+                        return false;
+                    }
                 }
+
                 return false;
 
             });
@@ -294,34 +313,37 @@ public class ViewRoomsController implements Initializable {
                 if (newValue == null) {
                     return true;
                 }
-                try {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    LocalDate startDate = arriveDatePicker.getValue();
-                    LocalDate endDate = departureDatePicker.getValue();
-                    System.out.println(startDate.compareTo(endDate));
+                if (departureDatePicker.getValue() != null) {
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate startDate = arriveDatePicker.getValue();
+                        LocalDate endDate = departureDatePicker.getValue();
+                        System.out.println(startDate.compareTo(endDate));
 
-                    java.sql.Statement statement5 = conn.createStatement();
-                    ResultSet viewBookings = statement5.executeQuery("SELECT * FROM APP.BOOKING WHERE ROOM = " + Integer.parseInt(Rooms.getROOM_NO()));
-                    System.out.println("query created");
+                        java.sql.Statement statement5 = conn.createStatement();
+                        ResultSet viewBookings = statement5.executeQuery("SELECT * FROM APP.BOOKING WHERE ROOM = " + Integer.parseInt(Rooms.getROOM_NO()));
+                        System.out.println("query created");
 
-                    while (viewBookings.next()) {
-                        LocalDate bookingStart = LocalDate.parse(viewBookings.getString(6), formatter);
-                        LocalDate bookingEnd = LocalDate.parse(viewBookings.getString(7), formatter);
-                        //bookingStart.compareTo(bookingEnd);
+                        while (viewBookings.next()) {
+                            LocalDate bookingStart = LocalDate.parse(viewBookings.getString(6), formatter);
+                            LocalDate bookingEnd = LocalDate.parse(viewBookings.getString(7), formatter);
+                            //bookingStart.compareTo(bookingEnd);
 
-                        if (startDate.compareTo(bookingEnd) > 0) {
-                            return true;
-                        } else if (endDate.compareTo(bookingStart) < 0) {
-                            return true;
-                        } else {
-                            i++;
-                            return false;
-                            //x++;
+                            if (startDate.compareTo(bookingEnd) > 0) {
+                                return true;
+                            } else if (endDate.compareTo(bookingStart) < 0) {
+                                return true;
+                            } else {
+                                i++;
+                                return false;
+                            }
                         }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ViewRoomsController.class
+                                .getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ViewRoomsController.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    System.out.println("I have registered the event");
                 }
                 if (i > 0) {
                     return false;

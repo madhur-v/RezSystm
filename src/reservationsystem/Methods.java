@@ -13,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  *
@@ -88,6 +90,46 @@ public class Methods {
         }
     }
 
+    public static void createLogInTable() {
+        System.out.println("creating booking table...");
+        openConnection();
+        PreparedStatement createBookingTable = null;
+        ResultSet rl = null;
+        try {
+            DatabaseMetaData dbmd2 = conn.getMetaData();
+            rl = dbmd2.getTables(null, "APP", "LOGIN", null);
+            if (!rl.next()) {
+                createBookingTable = conn.prepareStatement(
+                        "CREATE TABLE APP.LOGIN (USERNAME VARCHAR(20) NOT NULL, STAFF_NAME VARCHAR(20))");
+                createBookingTable.execute();
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        System.out.println("Booking table created");
+
+    }
+
+    public void createLog(String description) throws SQLException {
+        openConnection();
+        String user = " ";
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+           
+        java.sql.Statement statement = conn.createStatement();
+        ResultSet RS = statement.executeQuery("SELECT USERNAME FROM APP.LOGIN");
+        while(RS.next()){
+            user = RS.getString(1);
+        } 
+        Methods m = new Methods();
+        m.insertStatement("INSERT INTO APP.HISTORYLOG (USERNAME, ADESCRIPTION) VALUES ("
+            + "'" + user + "',"  
+            + "'" + description + "')"); 
+               
+    }
+
     public static void createHISTORYLOGTable() {
         System.out.println("creating booking table...");
         openConnection();
@@ -98,17 +140,17 @@ public class Methods {
             rl = dbmd2.getTables(null, "APP", "HISTORYLOG", null);
             if (!rl.next()) {
                 createBookingTable = conn.prepareStatement(
-                        "CREATE TABLE APP.HISTORYLOG (USER VARCHAR(20) NOT NULL,"
-                                + "ATIME TIME NOT NULL,"
-                                + "ADATE DATE NOT NULL,"
-                                + "ADESCRIPTION VARCHAR(20) NOT NULL)" );
+                        "CREATE TABLE APP.HISTORYLOG (USERNAME VARCHAR(20) NOT NULL,"
+                        + "ATIME TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
+                        + "ADESCRIPTION VARCHAR(100) NOT NULL)");
                 createBookingTable.execute();
+                System.out.println("YAY WE ANAGED TO CREATE THE HISTORY LOG");
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
-        System.out.println("Booking table created");
+        System.out.println("history table created");
 
     }
 
@@ -144,8 +186,15 @@ public class Methods {
             rl = dbmd2.getTables(null, "APP", "FROM_ROOM", null);
             if (!rl.next()) {
                 createBookingTable = conn.prepareStatement(
-                        "CREATE TABLE APP.FROM_ROOM (ROOM_NO INT NOT NULL)");
+                        "CREATE TABLE APP.FROM_ROOM (ROOM_NO INT, "
+                        + "BOOKING_NAME VARCHAR(100),"
+                        + "PEOPLE INT, "
+                        + "CHECKINTIME VARCHAR(20),"
+                        + "CHECKOUTTIME VARCHAR(20),"
+                        + "CHECKIN DATE, "
+                        + "CHECKOUT DATE)");
                 createBookingTable.execute();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +215,7 @@ public class Methods {
             if (!rl.next()) {
                 createBookingTable = conn.prepareStatement(
                         "CREATE TABLE APP.BOOKING (BOOKING_ID INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-                        + "REFERENCECODE VARCHAR(10) NOT NULL,"
+                        + "REFERENCECODE VARCHAR(20) NOT NULL,"
                         + "BOOKING_NAME VARCHAR(100) NOT NULL,"
                         + "PEOPLE INT NOT NULL,"
                         + "ROOM INT NOT NULL,"
@@ -175,8 +224,8 @@ public class Methods {
                         + "CHECKINTIME VARCHAR(20) NOT NULL,"
                         + "CHECKOUTTIME VARCHAR(20) NOT NULL,"
                         + "BREAKFAST BOOLEAN DEFAULT FALSE,"
-                        + "EARLYIN VARCHAR(10) DEFAULT 'NO',"
-                        + "LATEOUT VARCHAR(10) DEFAULT 'NO', "
+                        + "EARLYIN VARCHAR(10) DEFAULT 'No',"
+                        + "LATEOUT VARCHAR(10) DEFAULT 'No', "
                         + "DEPOSIT INT DEFAULT 0, "
                         + "REMAINING INT DEFAULT 0)");
                 createBookingTable.execute();
@@ -266,8 +315,8 @@ public class Methods {
 
                 insertStaffValues = conn.prepareStatement(
                         "INSERT INTO APP.STAFF (USERNAME, "
-                        + "PASSWORD, ADMIN) VALUES "
-                        + "('user', 'password', true)");
+                        + "PASSWORD, STAFF_NAME, ADMIN) VALUES "
+                        + "('user', 'password', 'Chun-Tang Pai', true)");
                 insertStaffValues.execute();
                 System.out.println("admin staff values inserted");
             }
@@ -301,7 +350,7 @@ public class Methods {
                 System.out.println("rooms table created");
             }
 
-            String csvFile = "C:\\Users\\yuling\\Documents\\NetBeansProjects\\ReservationSystem_2\\Rooms.csv";
+            String csvFile = "Rooms.csv";
             BufferedReader br = null;
             String line = "";
             String cvsSplitBy = ",";
@@ -355,7 +404,7 @@ public class Methods {
                 createRoomTypes.execute();
                 System.out.println("room_types table created");
 
-                String csvFile = "C:\\Users\\yuling\\Documents\\NetBeansProjects\\ReservationSystem_2\\Rooms.csv";
+                String csvFile = "Rooms.csv";
                 BufferedReader br = null;
                 String line = "";
                 String cvsSplitBy = ",";

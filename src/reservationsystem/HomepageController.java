@@ -7,6 +7,7 @@ package reservationsystem;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -61,7 +62,7 @@ public class HomepageController implements Initializable {
     private Button test;
 
     public PageSwitch ps = new PageSwitch();
-
+    Methods m = new Methods();
     /**
      * Initializes the controller class.
      */
@@ -112,8 +113,9 @@ ps.viewBooking(event);
     }
 
     @FXML
-    private void logOut(ActionEvent event) throws IOException {
+    private void logOut(ActionEvent event) throws IOException, SQLException {
         ps.logOut(event);
+        m.createLog("User logged out");
     }
 
 }

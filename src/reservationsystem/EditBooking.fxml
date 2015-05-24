@@ -30,6 +30,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
@@ -48,25 +49,26 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="checkinlabel" text="Check-in Date*" GridPane.rowIndex="4">
+            <Label fx:id="checkinlabel" text="Check-in Date*" GridPane.rowIndex="5">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="checkoutlabel" text="Check-out Date*" GridPane.rowIndex="5">
+            <Label fx:id="checkoutlabel" text="Check-out Date*" GridPane.rowIndex="6">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="deposit" prefHeight="40.0" prefWidth="113.0" text="Deposit" GridPane.rowIndex="6" />
+            <Label fx:id="deposit" prefHeight="40.0" prefWidth="113.0" text="Deposit" GridPane.rowIndex="7" />
             <Label fx:id="referenceCodeTextField" prefHeight="38.0" prefWidth="98.0" text="Reference code:" />
             <TextField fx:id="bookingnametextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="gueststextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="roomtextfield" prefHeight="38.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="referenceCode" prefHeight="31.0" prefWidth="87.0" GridPane.columnIndex="1" />
-            <DatePicker fx:id="checkindatepicker" prefHeight="32.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <DatePicker fx:id="checkoutdatepicker" onAction="#showBreakfast" prefHeight="32.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="depositTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <DatePicker fx:id="checkindatepicker" prefHeight="32.0" prefWidth="192.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="checkoutdatepicker" onAction="#showBreakfast" prefHeight="32.0" prefWidth="458.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="depositTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <TableView fx:id="breakfastTableView" layoutX="481.0" layoutY="279.0" prefHeight="422.0" prefWidth="258.0">

@@ -103,6 +103,10 @@ public class PageSwitch {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+        
+        
+        
+        
     }
 
     public void payment(ActionEvent event) throws IOException {
